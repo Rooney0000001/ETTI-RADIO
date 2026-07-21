@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ETTI RADIO — Producer Access</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0b1530;
+    --navy-deep:#070d1f;
+    --gold:#f2b705;
+    --gold-dim:#c9960a;
+    --crimson:#c21807;
+    --cream:#f3ecd9;
+    --line: rgba(242,183,5,0.18);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse 120% 60% at 50% -10%, rgba(194,24,7,0.15), transparent 60%),
+      linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color:var(--cream);
+    font-family:'Work Sans', sans-serif;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px 18px;
+  }
+  .wrap{ max-width:460px; width:100%; text-align:center; }
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--crimson);
+    margin-bottom:8px;
+  }
+  h1{
+    font-family:'Bebas Neue', sans-serif;
+    font-size:34px;
+    letter-spacing:1.5px;
+    color:var(--gold);
+    margin-bottom:30px;
+  }
+  .option{
+    display:block;
+    text-decoration:none;
+    background:rgba(255,255,255,0.03);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:22px 20px;
+    margin-bottom:16px;
+    text-align:left;
+    transition:border-color .2s, background .2s;
+  }
+  .option:active{ background:rgba(242,183,5,0.06); }
+  .option .icon{ font-size:26px; margin-bottom:8px; }
+  .option h2{
+    font-family:'Bebas Neue', sans-serif;
+    font-size:20px;
+    letter-spacing:1px;
+    color:var(--cream);
+    margin-bottom:4px;
+  }
+  .option p{
+    font-size:12.5px;
+    color:rgba(243,236,217,0.55);
+  }
+  .option.live{ border-color:rgba(194,24,7,0.4); }
+  .option.blog{ border-color:rgba(242,183,5,0.35); }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="eyebrow">ETTI Radio</div>
+  <h1>Producer Access</h1>
+
+  <a class="option live" href="admin.html">
+    <div class="icon">🔴</div>
+    <h2>Live Stream Panel</h2>
+    <p>Start or end the live broadcast shown on the website.</p>
+  </a>
+
+  <a class="option blog" href="blog-admin.html">
+    <div class="icon">📰</div>
+    <h2>Blog Panel</h2>
+    <p>Write, edit, or delete posts on the station's blog.</p>
+  </a>
+</div>
+
+</body>
+</html>
