@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ETTI RADIO — Program Lineup Admin</title>
+<style>
+  :root{
+    --navy:#0b1530;
+    --navy-deep:#070d1f;
+    --gold:#f2b705;
+    --crimson:#c21807;
+    --cream:#f3ecd9;
+    --line: rgba(242,183,5,0.18);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+    color:var(--cream);
+    font-family:'Segoe UI', sans-serif;
+    min-height:100vh;
+    padding:20px;
+  }
+  .card{
+    background:rgba(255,255,255,0.03);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:24px 20px;
+    max-width:520px;
+    margin:0 auto 20px;
+  }
+  h1{ font-size:20px; color:var(--gold); margin-bottom:16px; }
+  h2{ font-size:15px; color:var(--gold); margin-bottom:12px; }
+  label{
+    display:block;
+    font-size:12px;
+    letter-spacing:1px;
+    color:rgba(243,236,217,0.7);
+    margin-bottom:6px;
+    margin-top:14px;
+  }
+  input[type="text"], input[type="password"], input[type="time"], select, textarea{
+    width:100%;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid var(--line);
+    background:rgba(0,0,0,0.3);
+    color:var(--cream);
+    font-size:14px;
+    font-family:inherit;
+  }
+  textarea{ min-height:80px; resize:vertical; }
+  input:focus, select:focus, textarea:focus{ outline:2px solid var(--gold); }
+  .row{ display:flex; gap:10px; }
+  .row > div{ flex:1; }
+
+  .day-presets{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:6px;
+  }
+  .preset-btn{
+    background:transparent;
+    border:1px solid var(--gold);
+    color:var(--gold);
+    padding:6px 12px;
+    font-size:11.5px;
+    border-radius:999px;
+    cursor:pointer;
+    margin-top:0;
+  }
+  .preset-btn:active{ background:rgba(242,183,5,0.15); }
+
+  .day-checks{
+    display:flex;
+    gap:6px;
+    flex-wrap:wrap;
+    margin-top:10px;
+  }
+  .day-check{
+    display:flex;
+    align-items:center;
+    gap:5px;
+    background:rgba(0,0,0,0.3);
+    border:1px solid var(--line);
+    padding:8px 10px;
+    border-radius:8px;
+    font-size:13px;
+    margin:0;
+    cursor:pointer;
+  }
+  .day-check input{ width:auto; accent-color:var(--gold); }
+  button{
+    padding:13px 20px;
+    border-radius:8px;
+    border:none;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+    margin-top:18px;
+  }
+  #postBtn{ background:var(--crimson); color:white; width:100%; }
+  #status{
+    margin-top:14px;
+    font-size:13px;
+    padding:10px;
+    border-radius:8px;
+    display:none;
+  }
+  #status.success{ background:rgba(46,204,113,0.15); color:#6be29a; display:block; }
+  #status.error{ background:rgba(194,24,7,0.15); color:#ff8a75; display:block; }
+
+  .show-item{
+    border:1px solid rgba(242,183,5,0.15);
+    border-radius:10px;
+    padding:14px;
+    margin-bottom:10px;
+  }
+  .show-item h3{ font-size:14px; color:var(--cream); margin-bottom:4px; }
+  .show-item .meta{ font-size:11px; color:rgba(243,236,217,0.5); margin-bottom:6px; }
+  .show-item p{ font-size:13px; color:rgba(243,236,217,0.7); margin-bottom:10px; }
+  .show-item button{
+    margin-top:0;
+    padding:8px 14px;
+    font-size:12px;
+    background:transparent;
+    border:1px solid var(--crimson);
+    color:#ff8a75;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h1>ETTI RADIO — Program Lineup Admin</h1>
+
+  <label>Producer Password</label>
+  <input type="password" id="password" placeholder="Enter password">
+
+  <label>Day(s) — select all that apply</label>
+  <div class="day-presets">
+    <button type="button" class="preset-btn" onclick="selectPreset('weekdays')">Mon–Fri</button>
+    <button type="button" class="preset-btn" onclick="selectPreset('weekend')">Sat–Sun</button>
+    <button type="button" class="preset-btn" onclick="selectPreset('all')">Every Day</button>
+    <button type="button" class="preset-btn" onclick="selectPreset('none')">Clear</button>
+  </div>
+  <div class="day-checks">
+    <label class="day-check"><input type="checkbox" value="Monday" data-order="1"> Mon</label>
+    <label class="day-check"><input type="checkbox" value="Tuesday" data-order="2"> Tue</label>
+    <label class="day-check"><input type="checkbox" value="Wednesday" data-order="3"> Wed</label>
+    <label class="day-check"><input type="checkbox" value="Thursday" data-order="4"> Thu</label>
+    <label class="day-check"><input type="checkbox" value="Friday" data-order="5"> Fri</label>
+    <label class="day-check"><input type="checkbox" value="Saturday" data-order="6"> Sat</label>
+    <label class="day-check"><input type="checkbox" value="Sunday" data-order="7"> Sun</label>
+  </div>
+
+  <div class="row">
+    <div>
+      <label>Start Time</label>
+      <input type="time" id="startTime">
+    </div>
+    <div>
+      <label>End Time (optional)</label>
+      <input type="time" id="endTime">
+    </div>
+  </div>
+
+  <label>Show Title</label>
+  <input type="text" id="title" placeholder="e.g. Morning Drive">
+
+  <label>Host(s)</label>
+  <input type="text" id="host" placeholder="e.g. John Doe">
+
+  <label>Co-Host (optional)</label>
+  <input type="text" id="coHost" placeholder="e.g. Jane Smith">
+
+  <label>Description (optional)</label>
+  <textarea id="description" placeholder="What's this show about?"></textarea>
+
+  <button id="postBtn" onclick="createShow()">Add to Lineup</button>
+  <div id="status"></div>
+</div>
+
+<div class="card">
+  <h2>Current Lineup</h2>
+  <div id="showsList">Loading...</div>
+</div>
+
+<script>
+  // IMPORTANT: paste your Cloudflare Worker URL here
+  const API_BASE = "https://etti-radio-backend.rooneywonder90.workers.dev";
+
+  async function loadShows(){
+    const listEl = document.getElementById('showsList');
+    try{
+      const res = await fetch(API_BASE + '/api/shows');
+      const data = await res.json();
+      if(!data.shows || data.shows.length === 0){
+        listEl.innerHTML = '<p style="color:rgba(243,236,217,0.5); font-size:13px;">No shows added yet.</p>';
+        return;
+      }
+      listEl.innerHTML = data.shows.map(s => `
+        <div class="show-item">
+          <h3>${escapeHtml(s.title)}</h3>
+          <div class="meta">${escapeHtml(s.day)} · ${formatTime(s.start_time)}${s.end_time ? ' – ' + formatTime(s.end_time) : ''}${s.host ? ' · ' + escapeHtml(s.host) : ''}${s.co_host ? ' & ' + escapeHtml(s.co_host) : ''}</div>
+          ${s.description ? '<p>' + escapeHtml(s.description) + '</p>' : ''}
+          <button onclick="deleteShow(${s.id})">Delete</button>
+        </div>
+      `).join('');
+    } catch(e){
+      listEl.innerHTML = '<p style="color:#ff8a75;">Could not load lineup.</p>';
+    }
+  }
+
+  function formatTime(t){
+    if(!t) return '';
+    const [h, m] = t.split(':');
+    const hour = parseInt(h, 10);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const h12 = hour % 12 === 0 ? 12 : hour % 12;
+    return h12 + ':' + m + ' ' + ampm;
+  }
+
+  function escapeHtml(str){
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  const WEEKDAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday'];
+  const WEEKEND = ['Saturday','Sunday'];
+  const ALL_DAYS = [...WEEKDAYS, ...WEEKEND];
+
+  function selectPreset(kind){
+    const boxes = document.querySelectorAll('.day-check input');
+    let target = [];
+    if(kind === 'weekdays') target = WEEKDAYS;
+    else if(kind === 'weekend') target = WEEKEND;
+    else if(kind === 'all') target = ALL_DAYS;
+    else if(kind === 'none') target = [];
+
+    boxes.forEach(function(box){
+      box.checked = target.includes(box.value);
+    });
+  }
+
+  function getSelectedDays(){
+    const boxes = document.querySelectorAll('.day-check input:checked');
+    return Array.from(boxes).map(function(b){
+      return { day: b.value, dayOrder: parseInt(b.dataset.order, 10) };
+    });
+  }
+
+  async function createShow(){
+    const password = document.getElementById('password').value;
+    const selectedDays = getSelectedDays();
+    const startTime = document.getElementById('startTime').value;
+    const endTime = document.getElementById('endTime').value;
+    const title = document.getElementById('title').value;
+    const host = document.getElementById('host').value;
+    const coHost = document.getElementById('coHost').value;
+    const description = document.getElementById('description').value;
+    const statusEl = document.getElementById('status');
+
+    statusEl.className = '';
+    statusEl.style.display = 'none';
+
+    if(selectedDays.length === 0){
+      statusEl.className = 'error';
+      statusEl.textContent = 'Select at least one day.';
+      return;
+    }
+    if(!startTime || !title){
+      statusEl.className = 'error';
+      statusEl.textContent = 'Start time and show title are required.';
+      return;
+    }
+
+    try{
+      // One entry per selected day, so a Mon–Fri show is one submission
+      for(const d of selectedDays){
+        const res = await fetch(API_BASE + '/api/shows', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            password, day: d.day, dayOrder: d.dayOrder,
+            startTime, endTime, title, host, coHost, description
+          })
+        });
+        const data = await res.json();
+        if(!res.ok){
+          statusEl.className = 'error';
+          statusEl.textContent = data.error || 'Something went wrong on ' + d.day;
+          return;
+        }
+      }
+
+      statusEl.className = 'success';
+      statusEl.textContent = 'Added to the lineup for ' + selectedDays.length + ' day(s)!';
+      document.getElementById('title').value = '';
+      document.getElementById('host').value = '';
+      document.getElementById('coHost').value = '';
+      document.getElementById('description').value = '';
+      document.getElementById('startTime').value = '';
+      document.getElementById('endTime').value = '';
+      selectPreset('none');
+      loadShows();
+    } catch(e){
+      statusEl.className = 'error';
+      statusEl.textContent = 'Could not reach the server';
+    }
+  }
+
+  async function deleteShow(id){
+    const password = document.getElementById('password').value;
+    if(!password){
+      alert('Enter the producer password above first, then tap Delete again.');
+      return;
+    }
+    if(!confirm('Remove this show from the lineup?')) return;
+
+    try{
+      const res = await fetch(API_BASE + '/api/shows/' + id, {
+        method: 'DELETE',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ password })
+      });
+      const data = await res.json();
+      if(res.ok){
+        loadShows();
+      } else {
+        alert(data.error || 'Could not delete show');
+      }
+    } catch(e){
+      alert('Could not reach the server');
+    }
+  }
+
+  loadShows();
+</script>
+
+</body>
+</html>
