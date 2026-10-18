@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/post/:id", "destination": "https://etti-radio-backend.rooneywonder90.workers.dev/post/:id" },
+    { "source": "/post-image/:id", "destination": "https://etti-radio-backend.rooneywonder90.workers.dev/post-image/:id" }
+  ]
+}
