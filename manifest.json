@@ -1,0 +1,21 @@
+{
+  "name": "ETTI Radio & TV",
+  "short_name": "ETTI Radio & TV",
+  "description": "The official radio and television platform of Eldoret Technical Training Institute.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#070d1f",
+  "theme_color": "#0b1530",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
